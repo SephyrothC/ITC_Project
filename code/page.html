@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Recommandations de films</title>
+</head>
+
+<body>
+    {% for movie in movies %}
+    <div>
+        <h2>{{ movie.title }}</h2>
+        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" onclick="window.location.href='{{ movie.link }}';">
+    </div>
+    {% endfor %}
+</body>
+
+</html>

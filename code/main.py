@@ -1,6 +1,8 @@
 import csv
 from collections import defaultdict, Counter
 from fuzzywuzzy import process, fuzz
+from flask import Flask, render_template
+app = Flask(__name__)
 
 
 class Movie:
@@ -119,7 +121,9 @@ def recommend_movies(movie_names, movies_dict, limit=5):
 
     # Trouver les films les plus similaires pour chaque nom dans movie_names
     similar_movies = get_movies_by_name(movie_names, movies_dict)
-
+    for movie in similar_movies:
+        print(movie)
+        print("\n")
    # Récupérer les genres de ces films
     genres = [movie.tags for movie in similar_movies]
 
@@ -132,7 +136,7 @@ def recommend_movies(movie_names, movies_dict, limit=5):
                      count in genre_counts.items() if count >= 2]
 
     same_genre_movies = [movie for movie in movies_dict.values() if len(
-        set(movie.tags) & set(common_genres)) >= 2 and movie.rating != 5.0]
+        set(movie.tags) & set(common_genres)) >= 3 and movie.rating != 5.0]
 
     # Trier ces films par note moyenne et prendre les cinq premiers
     top_movies = sorted(same_genre_movies,
@@ -141,12 +145,8 @@ def recommend_movies(movie_names, movies_dict, limit=5):
     return top_movies
 
 
-if __name__ == '__main__':
-    # calculate_average_ratings()
-
-    average_ratings = {}
-    # Charger les notes moyennes au démarrage du programme
-    load_average_ratings()
+@app.route('/')
+def home():
 
     # Initialiser la liste des films
     movies_dict = MovieInit()
@@ -157,7 +157,14 @@ if __name__ == '__main__':
     # Appeler la fonction recommend_movies pour obtenir les recommandations
     recommended_movies = recommend_movies(movie_names, movies_dict)
 
-    # Afficher les films recommandés
-    for movie in recommended_movies:
-        print("\n================================\n")
-        print(movie)
+    # Renvoyer le HTML généré à partir du modèle et des films recommandés
+    return render_template('index.html', movies=recommended_movies)
+
+
+if __name__ == '__main__':
+    # calculate_average_ratings()
+
+    average_ratings = {}
+    # Charger les notes moyennes au démarrage du programme
+    load_average_ratings()
+    app.run(debug=True)
