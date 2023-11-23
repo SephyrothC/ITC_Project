@@ -3,16 +3,52 @@
 
 <head>
     <title>Recommandations de films</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .movie {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie h2 {
+            margin: 0;
+        }
+
+        .movie p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 
 <body>
-    {% for movie in movies %}
-    <div>
-        <h2>{{ movie.name }}</h2>
-        <p>Rating: {{ movie.rating }}</p>
-        <p>Tags: {{ ', '.join(movie.tags) }}</p>
-    </div>
-    {% endfor %}
+    <header>
+        <h1 style="text-align: center; padding: 20px; background-color: #007BFF; color: #fff;">Recommandations de films
+        </h1>
+    </header>
+    <main>
+        {% for movie in movies %}
+        <div class="movie">
+            <div>
+                <h2>{{ movie.name }}</h2>
+                <p>Rating: {{ "%.2f"|format(movie.rating) }}</p>
+                <p>Tags: {{ ', '.join(movie.tags) }}</p>
+            </div>
+            <a href="{{ movie.link }}" style="color: #007BFF; text-decoration: none;">Voir le film</a>
+        </div>
+        {% endfor %}
+    </main>
 </body>
 
 </html>
