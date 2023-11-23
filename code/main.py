@@ -4,7 +4,7 @@ from collections import defaultdict, Counter
 from fuzzywuzzy import process, fuzz
 from flask import Flask, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../template')
 
 
 class Movie:
@@ -60,7 +60,7 @@ def home():
     movies_dict = MovieInit()
     movie_names = ["Toy Story", "Nemo", "Hercule"]
     recommended_movies = recommend_movies(movie_names, movies_dict)
-    return render_template('code/index.html', movies=recommended_movies)
+    return render_template('index.html', movies=recommended_movies)
 
 
 if __name__ == '__main__':
