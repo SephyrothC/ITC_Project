@@ -8,8 +8,9 @@
 <body>
     {% for movie in movies %}
     <div>
-        <h2>{{ movie.title }}</h2>
-        <img src="{{ movie.poster_url }}" alt="{{ movie.title }}" onclick="window.location.href='{{ movie.link }}';">
+        <h2>{{ movie.name }}</h2>
+        <p>Rating: {{ movie.rating }}</p>
+        <p>Tags: {{ ', '.join(movie.tags) }}</p>
     </div>
     {% endfor %}
 </body>
