@@ -23,7 +23,7 @@ class Movie:
         return average_ratings.get(self.id, 0)
 
     def __str__(self):
-        return f"Movie ID: {self.id}\nName: {self.name}\nRating: {self.rating}\nTags: {', '.join(self.tags)}\nLink: {self.link}"
+        return f"Movie ID: {self.id}\nName: {self.name}\nRating: {self.rating}\nTags: {', '.join(self.tags)}\nLink: {self.link}\n\n"
 
 
 def MovieInit():
@@ -49,16 +49,50 @@ def load_average_ratings():
             average_ratings[movie_id] = average_rating
 
 
+def get_movies_by_name(movie_names, movies_dict, limit=3):
+    # Initialiser une liste vide pour stocker les films trouvés
+    found_movies = []
+    # Parcourir la liste des noms de films
+    for name in movie_names:
+        # Parcourir le dictionnaire des films
+        for movie in movies_dict.values():
+            # Si le nom du film est suffisamment proche du nom recherché, ajouter l'objet Movie à la liste
+            # Vous pouvez ajuster ce seuil en fonction de vos besoins
+            if fuzz.ratio(movie.name, name) > 60:
+                found_movies.append(movie)
+    # Renvoyer la liste des films trouvés
+    return found_movies
+
+
 def recommend_movies(movie_names, movies_dict, limit=5):
-    similar_movies = process.extractBests(
-        ' '.join(movie_names), movies_dict.keys(), limit=limit)
-    return [movies_dict[movie_id] for movie_id, _ in similar_movies]
+    # Find the most similar movie names in the movies_dict
+    similar_movies = get_movies_by_name(movie_names, movies_dict)
+
+    # Get the genres of the list of movies from the movies_dict
+    genres = [movie.tags for movie in similar_movies]
+
+    # Flatten the list of genres and get the three most common genres
+    common_genres = Counter(
+        [genre for sublist in genres for genre in sublist]).most_common(3)
+    common_genres = [genre for genre, _ in common_genres]
+
+    # Filter the movies_dict to only include movies with all common genres and sort by rating
+    recommended_movies = sorted([movie for movie in movies_dict.values() if all(genre in movie.tags for genre in common_genres) and movie.id not in [
+                                movie.id for movie in similar_movies]], key=lambda x: x.rating, reverse=True)
+
+    # Return the top 5 movies
+    return recommended_movies[:5]
+
+
+def print_recommended_movies(recommended_movies):
+    for movie in recommended_movies:
+        print(movie)
 
 
 @app.route('/')
 def home():
     movies_dict = MovieInit()
-    movie_names = ["Toy Story", "Nemo", "Hercule"]
+    movie_names = ["Exorciste", "Saw", "Shinning"]
     recommended_movies = recommend_movies(movie_names, movies_dict)
     return render_template('index.html', movies=recommended_movies)
 
@@ -67,3 +101,9 @@ if __name__ == '__main__':
     average_ratings = {}
     load_average_ratings()
     app.run(debug=True)
+
+    # movies_dict = MovieInit()
+    # movie_names = ["Exorciste", "Saw", "Shinning"]
+    # recommended_movies = recommend_movies(movie_names, movies_dict)
+
+    # print_recommended_movies(recommended_movies)
