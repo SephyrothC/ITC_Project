@@ -1,70 +1,73 @@
-import requests
 import csv
 from collections import defaultdict, Counter
 from fuzzywuzzy import process, fuzz
 from flask import Flask, render_template
 
+# Initialize a Flask application with a template folder
 app = Flask(__name__, template_folder='../template')
 
 
-class Movie:
-    def __init__(self, id=0, name="", tags=None):
-        self.name = name
-        self.id = id
-        self.tags = tags if tags is not None else []
-        self.link = self.make_link()
-        self.rating = self.get_average_rating()
+class Movie:  # Define a class named Movie
+    def __init__(self, id=0, name="", tags=None):  # Constructor for the Movie class
+        self.name = name  # Assign the name
+        self.id = id  # Assign the id
+        self.tags = tags if tags is not None else []  # Assign the tags
+        self.link = self.make_link()  # Create a link for the movie
+        self.rating = self.get_average_rating()  # Get the average rating of the movie
 
-    def make_link(self):
+    def make_link(self):  # Method to create a link for the movie on the MovieLens website
         return "https://movielens.org/movies/" + str(self.id)
 
-    def get_average_rating(self):
-        # Retourner la note moyenne pour ce film
+    def get_average_rating(self):  # Method to get the average rating of the movie
+        # Return the average rating for this movie
         return average_ratings.get(self.id, 0)
 
-    def __str__(self):
+    def __str__(self):  # Method to return a string representation of the Movie object
         return f"Movie ID: {self.id}\nName: {self.name}\nRating: {self.rating}\nTags: {', '.join(self.tags)}\nLink: {self.link}\n\n"
 
 
-def MovieInit():
-    movies = {}
-    with open('ml-25m/ml-25m/movies.csv', 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
+def MovieInit():  # Function to initialize the movies
+    movies = {}  # Initialize an empty dictionary to store the movies
+    with open('ml-25m/ml-25m/movies.csv', 'r', encoding='utf-8') as f:  # Open the movies.csv file
+        reader = csv.reader(f)  # Create a CSV reader
         next(reader)  # Skip the header row
-        for row in reader:
-            id = int(row[0])
-            name = row[1]
+        for row in reader:  # For each row in the CSV file
+            id = int(row[0])  # Get the id
+            name = row[1]  # Get the name
             tags = row[2].split('|')  # Split the genres string into a list
+            # Create a Movie object and add it to the dictionary
             movies[id] = Movie(id, name, tags=tags)
-    return movies
+    return movies  # Return the dictionary of movies
 
 
-def load_average_ratings():
-    with open('ml-25m/ml-25m/average.csv', 'r') as f:
-        reader = csv.reader(f)
+def load_average_ratings():  # Function to load the average ratings
+    with open('ml-25m/ml-25m/average.csv', 'r') as f:  # Open the average.csv file
+        reader = csv.reader(f)  # Create a CSV reader
         next(reader)  # Skip the header row
-        for row in reader:
-            movie_id = int(row[0])
-            average_rating = float(row[1])
+        for row in reader:  # For each row in the CSV file
+            movie_id = int(row[0])  # Get the movie id
+            average_rating = float(row[1])  # Get the average rating
+            # Add the average rating to the dictionary
             average_ratings[movie_id] = average_rating
 
 
+# Function to get movies by name
 def get_movies_by_name(movie_names, movies_dict, limit=3):
-    # Initialiser une liste vide pour stocker les films trouvés
+    # Initialize an empty list to store the found movies
     found_movies = []
-    # Parcourir la liste des noms de films
+    # Iterate over the list of movie names
     for name in movie_names:
-        # Parcourir le dictionnaire des films
+        # Iterate over the dictionary of movies
         for movie in movies_dict.values():
-            # Si le nom du film est suffisamment proche du nom recherché, ajouter l'objet Movie à la liste
-            # Vous pouvez ajuster ce seuil en fonction de vos besoins
+            # If the movie name is close enough to the searched name, add the Movie object to the list
+            # You can adjust this threshold according to your needs
             if fuzz.ratio(movie.name, name) > 60:
                 found_movies.append(movie)
-    # Renvoyer la liste des films trouvés
+    # Return the list of found movies
     return found_movies
 
 
-def recommend_movies(movie_names, movies_dict, limit=5):
+def recommend_movies(movie_names, movies_dict, limit=5):  # Function to recommend movies
     # Find the most similar movie names in the movies_dict
     similar_movies = get_movies_by_name(movie_names, movies_dict)
 
@@ -84,26 +87,23 @@ def recommend_movies(movie_names, movies_dict, limit=5):
     return recommended_movies[:5]
 
 
+# Function to print recommended movies
 def print_recommended_movies(recommended_movies):
     for movie in recommended_movies:
         print(movie)
 
 
-@app.route('/')
+@app.route('/')  # Define the route for the home page
 def home():
-    movies_dict = MovieInit()
-    movie_names = ["Exorciste", "Saw", "Shinning"]
-    recommended_movies = recommend_movies(movie_names, movies_dict)
+    movies_dict = MovieInit()  # Initialize the movies
+    movie_names = ["Exorciste", "Saw", "Shinning"]  # Define the movie names
+    recommended_movies = recommend_movies(
+        movie_names, movies_dict)  # Get the recommended movies
+    # Render the home page with the recommended movies
     return render_template('index.html', movies=recommended_movies)
 
 
 if __name__ == '__main__':
-    average_ratings = {}
-    load_average_ratings()
-    app.run(debug=True)
-
-    # movies_dict = MovieInit()
-    # movie_names = ["Exorciste", "Saw", "Shinning"]
-    # recommended_movies = recommend_movies(movie_names, movies_dict)
-
-    # print_recommended_movies(recommended_movies)
+    average_ratings = {}  # Initialize the average ratings
+    load_average_ratings()  # Load the average ratings
+    app.run(debug=True)  # Run the Flask application in debug mode
