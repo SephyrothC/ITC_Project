@@ -2,42 +2,63 @@
 <html>
 
 <head>
-    <title>Recommandations de films</title>
+    <title>Movie Recommendations</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* Set the font of the body */
             margin: 0;
+            /* Remove the margin of the body */
             padding: 0;
+            /* Remove the padding of the body */
             background-color: #f0f0f0;
+            /* Set the background color of the body */
         }
 
         .movie {
             display: flex;
+            /* Use flexbox for layout */
             align-items: center;
+            /* Center items vertically */
             justify-content: space-between;
+            /* Space items evenly */
             padding: 20px;
+            /* Add padding around the movie div */
             margin: 10px;
+            /* Add margin around the movie div */
             border-radius: 5px;
+            /* Round the corners of the movie div */
             background-color: #fff;
+            /* Set the background color of the movie div */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* Add a shadow to the movie div */
         }
 
         .movie h2 {
             margin: 0;
+            /* Remove the margin of the h2 elements */
         }
 
         .movie p {
             margin: 5px 0;
+            /* Add vertical margin to the p elements */
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1 style="text-align: center; padding: 20px; background-color: #007BFF; color: #fff;">Recommandations de films
+        <h1 style="text-align: center; padding: 20px; background-color: #007BFF; color: #fff;">Movie Recommendations
         </h1>
     </header>
     <main>
+        <form method="POST">
+            <input type="text" name="movie_names" placeholder="Enter movie names separated by commas">
+            <input type="submit" value="Get Recommendations">
+        </form>
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
         {% for movie in movies %}
         <div class="movie">
             <div>
@@ -45,7 +66,7 @@
                 <p>Rating: {{ "%.2f"|format(movie.rating) }}</p>
                 <p>Tags: {{ ', '.join(movie.tags) }}</p>
             </div>
-            <a href="{{ movie.link }}" style="color: #007BFF; text-decoration: none;">Voir le film</a>
+            <a href="{{ movie.link }}" style="color: #007BFF; text-decoration: none;">View Movie</a>
         </div>
         {% endfor %}
     </main>
