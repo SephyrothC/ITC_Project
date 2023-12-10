@@ -14,7 +14,7 @@ The goal of this project is to create a platform that allows to easily find the 
 
 ### Lunch
 
-There is a `run.bat` file that allows you to launch the project from scratch. It will automatically install the necessary libraries for the project to function properly.
+There is a `run.bat` file that allows you to launch (**IN ADMINISTRATOR**) the project from scratch. It will automatically install the necessary libraries for the project to function properly.
 
 ### See the project
 
