@@ -2,13 +2,44 @@
 
 ## Table of Contents
 1. Overview
-2. Implementation
-3. User Interface
+2. Run the project
+3. Implementation
 4. Future Work
 
 ## Overview <a name="overview"></a>
 
-This project is a movie recommendation system built with Python and Flask. It uses data from the MovieLens dataset to recommend movies based on user input.
+The goal of this project is to create a platform that allows to easily find the ideal movie for a great evening. Indeed, I realized that I often spent more time looking for a movie than watching it. To solve this problem, I designed a personalized movie recommendation system, developed in Python and Flask, that uses the MovieLens database. This database contains information on more than 27,000 movies and more than 20 million ratings given by users.
+
+## Run the project <a name="run-the-project"></a>
+
+### Lunch
+
+There is a `run.bat` file that allows you to launch the project from scratch. It will automatically install the necessary libraries for the project to function properly.
+
+### See the project
+
+After launching the `run.bat` file, all you have to do is click on the website as indicated below:
+
+![](picture/site.png)
+
+
+### Enter your film 
+
+After clicking on the website, enter the names of movies (**IN ENGLISH TITLES**) and then press Get Recommendations.
+
+Example:
+
+![](picture/list_film.png)
+
+### The Recommendations
+
+You can now choose your next movie to watch.
+
+![](picture/film.png)
+
+By clicking on `View Movie`, you can learn more about the movie by landing on the MovieLens platform.
+
+![](picture/film_page.png)
 
 ## Implementation <a name="implementation"></a>
 
@@ -18,9 +49,6 @@ The `get_movies_by_name` function takes a list of movie names and returns a list
 
 The application has a single route (`/`) that handles both GET and POST requests. If the request method is POST, the route function gets the movie names from the form data, finds the recommended movies, and displays them on the page. If the request method is not POST, the route function simply displays the home page without any movies.
 
-## User Interface <a name="user-interface"></a>
-
-The user interface is a simple web page with a form where the user can enter movie names. When the form is submitted, the page displays the recommended movies along with their ratings, tags, and a link to view the movie. If the user doesn't enter any movie names, an error message is displayed on the page.
 
 ## Future Work <a name="future-work"></a>
 
