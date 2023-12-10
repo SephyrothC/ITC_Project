@@ -25,7 +25,7 @@ After launching the `run.bat` file, all you have to do is click on the website a
 
 ### Enter your film 
 
-After clicking on the website, enter the names of movies (**IN ENGLISH TITLES**) and then press Get Recommendations.
+After clicking on the website, enter the names of movies (**THE ENGLISH TITLES**) and then press Get Recommendations.
 
 Example:
 
