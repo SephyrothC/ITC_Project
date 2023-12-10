@@ -1,6 +1,16 @@
 @echo off
 setlocal enabledelayedexpansion
 set datetime=%date:~-4,4%_%date:~-7,2%_%date:~-10,2%_%time:~0,2%h%time:~3,2%
+echo Checking Python installation...
+
+python --version >nul 2>&1
+if errorlevel 1 (
+    echo Python is not installed. Please install it from https://www.python.org/downloads/
+    pause
+    exit /b
+)
+
+echo Python is installed.
 echo Checking and installing necessary Python libraries...
 
 python -m pip install --upgrade pip
