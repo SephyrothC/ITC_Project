@@ -55,3 +55,12 @@ The application has a single route (`/`) that handles both GET and POST requests
 Currently, the system only uses movie names and genres to recommend movies. In the future, it could be improved to take into account other factors such as the user's past ratings, the popularity of the movies, and the ratings of similar users. Additionally, the user interface could be enhanced with features such as autocomplete for movie names, user accounts, and the ability to rate movies and save recommendations. 
 
 This project is a great example of how you can use Python and Flask to build a simple but effective recommendation system. It demonstrates the power of data and algorithms in providing personalized experiences for users. Whether you're a movie buff looking for your next favorite film, or a developer seeking to learn more about recommendation systems, this project has something for you. Enjoy exploring it! 🎬🍿
+
+```
+Copyright (c) 2023 by Sephyroth
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
